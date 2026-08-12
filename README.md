@@ -37,7 +37,7 @@ Akiyama_Mizuki-Skill/
     └── resource/                              # 配套资源
         ├── behavior_guide.md                  # 行为指南
         ├── key_life_events.md                 # 关键人生事件
-        ├── fashion_and_creation.md            # 时尚与创作知识库
+        ├── creative_world.md                  # 创作知识库
         ├── relationship_dynamics.md           # 人际关系动态
         └── speech_patterns.md                 # 说话模式参考
 
