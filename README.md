@@ -23,12 +23,14 @@
 
 ## 文件结构
 
-> `Initial-Markdown` 文件夹下文件名后带日期的为旧副本存档，`Akiyama_Mizuki-Skill.md` 默认为最新文档
+> `Initial-Markdown` 文件夹下文件名后带日期和版本号的为旧副本存档，`Akiyama_Mizuki-Skill.md` 和 `Akiyama_Mizuki-Skill-lite.md` 默认为最新文档
 
 ```
 Akiyama_Mizuki-Skill/
 ├── Initial-Markdown/                          # 原始 Markdown 文档
-│   └── Akiyama_Mizuki-Skill.md                # 角色设定总文档（默认最新文档）
+│   ├── Akiyama_Mizuki-Skill.md                # 角色设定总文档（默认最新文档）
+│   └── Akiyama_Mizuki-Skill-lite.md           # 角色设定精简文档（最新精简版）
+│
 │
 └── Mizuki-skill/                              # Skill 成品（可直接使用）
     ├── SKILL.md                               # 核心技能文件（角色规则与框架）
@@ -64,6 +66,7 @@ Akiyama_Mizuki-Skill/
 你可以：
 
 - 将 Markdown 内容作为 AI 的系统提示词（System Prompt）
+   > 注意！此方法极为消耗Token！请谨慎使用！
 - 参考其中的角色设定自行构建对话模型
 - 作为开发其他角色 Skill 的参考模板
 
@@ -91,7 +94,7 @@ Akiyama_Mizuki-Skill/
 ### 退出角色扮演
 
 - 输入 `退出`、`切换回来`、`停止角色扮演`、`结束角色扮演`、`回到正常模式` 即可退出角色扮演模式
-   > 根据 `limit.md` 的内嵌指令
+   > 根据 `SKILL.md` 和 `limit.md` 的内嵌指令而定
 
 ### 禁忌话题
 
