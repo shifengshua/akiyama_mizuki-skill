@@ -2,6 +2,8 @@
 
 # 晓山瑞希.Skill
 
+###  与「25时，在Nightcord见」的MV动画师来一场跨越次元的对话吧！
+
 > 基于《Project SEKAI COLORFUL STAGE! feat. 初音ミク》中角色「晓山瑞希」（Akiyama Mizuki）所制作的 AI 聊天 Skill
 
 </div>
