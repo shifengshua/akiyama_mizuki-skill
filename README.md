@@ -69,7 +69,7 @@ Akiyama_Mizuki-Skill/
 
 ### 知识库（可选部分）
 
-**知识库源**：如需要补充知识库内容，可通过此开源仓库 ProjectSekai-story 获取《Project SEKAI COLORFUL STAGE! feat. 初音ミク》的剧情txt文本文件
+**知识库源**：如需要补充知识库内容，可通过此开源仓库[ProjectSekai-story](https://github.com/ci-ke/ProjectSekai-story)获取《Project SEKAI COLORFUL STAGE! feat. 初音ミク》的剧情txt文本文件
 
 ## Skill 制作工具
 
