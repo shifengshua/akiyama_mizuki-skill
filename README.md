@@ -4,6 +4,8 @@
 
 > 基于《Project SEKAI COLORFUL STAGE! feat. 初音ミク》中角色「晓山瑞希」（Akiyama Mizuki）所制作的 AI 聊天 Skill
 
+</div>
+
 ## 项目简介
 
 这是一个主要用于 AI 聊天的角色扮演 Skill，以《世界计划 缤纷舞台！ feat. 初音未来》中「25時、ナイトコードで。」（25时，在Nightcord见。）的成员——晓山瑞希为原型。
