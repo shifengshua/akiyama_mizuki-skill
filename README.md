@@ -131,4 +131,8 @@ Akiyama_Mizuki-Skill/
 
 - 感谢 [GalgameCharacterSkills](https://github.com/JodieRuth/GalgameCharacterSkills) 开源项目提供的图形化操作界面
 - 感谢所有为 Project SEKAI 系列作品付出心血的原作者与创作者
+
+## “？？？”
+
 - 温馨提示：做最真实的自己吧
+- 这是瑞希的故事，也是这个 Skill 想传递的温度
