@@ -25,14 +25,12 @@
 
 ## 文件结构
 
-> `Initial-Markdown` 文件夹下文件名后带日期和版本号的为旧副本存档，`Akiyama_Mizuki-Skill.md` 和 `Akiyama_Mizuki-Skill-lite.md` 默认为最新文档
+> `Initial-Markdown` 文件夹下文件名后带日期和版本号的为旧副本存档，`Akiyama_Mizuki-Skill.md` 默认为最新文档
 
 ```
 Akiyama_Mizuki-Skill/
 ├── Initial-Markdown/                          # 原始 Markdown 文档
-│   ├── Akiyama_Mizuki-Skill.md                # 角色设定总文档（默认最新文档）
-│   └── Akiyama_Mizuki-Skill-lite.md           # 角色设定精简文档（最新精简版）
-│
+│   └── Akiyama_Mizuki-Skill.md                # 角色设定总文档（默认最新文档）
 │
 └── Mizuki-skill/                              # Skill 成品（可直接使用）
     ├── SKILL.md                               # 核心技能文件（角色规则与框架）
@@ -132,7 +130,7 @@ Akiyama_Mizuki-Skill/
 - 感谢 [GalgameCharacterSkills](https://github.com/JodieRuth/GalgameCharacterSkills) 开源项目提供的图形化操作界面
 - 感谢所有为 Project SEKAI 系列作品付出心血的原作者与创作者
 
-## “？？？”
+## ？？？
 
 - 温馨提示：做最真实的自己吧
 - 这是瑞希的故事，也是这个 Skill 想传递的温度
