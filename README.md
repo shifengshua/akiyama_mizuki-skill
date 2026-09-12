@@ -27,6 +27,8 @@
 
 > `Initial-Markdown` 文件夹下文件名后带日期和版本号的为旧副本存档，`Akiyama_Mizuki-Skill.md` 默认为最新文档
 
+> `Mizuki-skill-......`带后缀的文件夹为不同分支版本
+
 ```
 Akiyama_Mizuki-Skill/
 ├── Initial-Markdown/                          # 原始 Markdown 文档
@@ -69,7 +71,8 @@ Akiyama_Mizuki-Skill/
 
 3. **导入 AI 平台**：将解压目录中的整个 `Mizuki-skill` 文件夹拖入任意支持 Skill 的 AI 聊天平台即可使用
    > 部分AI可能需要将解压出的 `Mizuki-skill` 文件夹单独压缩成一个压缩包才能上传导入
-      > `Mizuki-skill-......`带后缀的文件夹为不同分支版本
+
+   > `Mizuki-skill-......`带后缀的文件夹为不同分支版本
 
 4. **开始对话**：在支持该 Skill 的 AI 中激活后，输入 `/Mizuki_chat [你的问题]` 即可与「晓山瑞希」对话
 
