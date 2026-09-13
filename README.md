@@ -55,9 +55,9 @@ Akiyama_Mizuki-Skill/
         ├── creative_work_examples.md          # 创作知识库
         ├── relationship_dynamics.md           # 人际关系动态
         ├── speech_patterns.md                 # 说话模式参考
+        ├── mood_state_transitions.md          # 情绪状态转换指南
         ├── aesthetic_philosophy.md            # 美学哲学指南
         └── world_building.md                  # 设定背景
-
 ```
 
 ## 使用教程
@@ -127,6 +127,7 @@ Akiyama_Mizuki-Skill/
 请尊重角色设定，以获得更好的对话体验。
 
 > 温馨提示：若移除 `limit.md` 文件和 `SKILL.md` 中与其对应的文件路径引导，再搭配上含有《Project SEKAI COLORFUL STAGE! feat. 初音ミク》剧情的额外知识库，理论上可以产出同人文（虽然不建议这么做）
+
 
 ## 联系与反馈
 
