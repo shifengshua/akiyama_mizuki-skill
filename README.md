@@ -45,7 +45,7 @@ Akiyama_Mizuki-Skill/
 │       ├── relationship_dynamics.md           # 人际关系动态
 │       └── speech_patterns.md                 # 说话模式参考
 │
-└── Mizuki-skill-Qwen3.5-9B-Q4_K_M/            # Skill 成品分支版本（使用 Qwen3.5-9B-Q4_K_M 本地AI模型生成，可直接使用）
+└── Mizuki-skill-Qwen3.5-9B-Q4_K_M/            # Skill 成品 - Qwen3.5-9B-Q4_K_M 分支版本（可直接使用）
     ├── SKILL.md                               # 核心技能文件（角色规则与框架）
     ├── limit.md                               # 边界与禁忌话题定义
     ├── soul.md                                # 角色核心驱动与情感内核
@@ -99,7 +99,7 @@ Akiyama_Mizuki-Skill/
 |-----------|------|
 | [Kimi](https://www.kimi.com) | 数据收集及整理，生成 `Initial-Markdown` 下的原始 Markdown 文档 |
 | [GalgameCharacterSkills](https://github.com/JodieRuth/GalgameCharacterSkills) | 提供图形化操作界面，将 Markdown 文档处理转换为 Skill 成品 |
-| [DeepSeek-V4-Pro](https://platform.deepseek.com/)（在线 AI 模型） | 通过 API 调用生成 Skill 成品的核心内容 |
+| [DeepSeek-V4-Pro](https://platform.deepseek.com/)（在线 AI 模型） | 通过 API 调用生成 Skill 成品的核心内容（ `Mizuki-skill` 主版本使用） |
 | [Qwen3.5-9B](https://www.modelscope.cn/models/unsloth/Qwen3.5-9B-GGUF)（本地 AI 模型） | 通过 API 调用生成 Skill 成品的核心内容（仅 `Mizuki-skill-......` 分支版使用） |
 
 ## 注意事项
