@@ -30,7 +30,7 @@
 > `Mizuki-skill-......`带后缀的文件夹为不同分支版本
 
 ```
-Akiyama_Mizuki-Skill/
+akiyama_mizuki-skill/
 ├── Initial-Markdown/                          # 原始 Markdown 文档
 │   └── Akiyama_Mizuki-Skill.md                # 角色设定总文档（默认最新文档）
 │
