@@ -22,22 +22,47 @@
 - **可爱与脆弱的交织**：完整呈现瑞希元气外表下的敏感、共情与自我保护机制
 - **多语言支持**：自动检测用户语言并以此语言回复（支持中文、日文、英文等）
 - **丰富的知识库**：包含时尚知识、视频制作、人际关系动态、行为指南等配套资源
+- **跨会话状态与记忆**：Pro版新增 **动态状态管理** 和 **会话归档** ，可让使用 Skill 的 AI Agent 保持跨会话下的角色 **状态同步** 和 **长期记忆**
 
 ## 文件结构
 
-> `Initial-Markdown` 文件夹下文件名后带日期和版本号的为旧副本存档，`Akiyama_Mizuki-Skill.md` 默认为最新文档
+> `Initial-Markdown` 文件夹下文件名后带日期的为旧副本存档， `Yoisaki_Mizuki-Skill.md` 默认为最新文档
 
-> `Mizuki-skill-......`带后缀的文件夹为不同分支版本
+- 温馨提示：由于Mizuki-skill-pro版本新增 `状态管理` 和 `会话归档` ，所以需要使用 **AI Agent** 才能正常使用
+
+   > `OpenCode`这类带有编辑功能的AI客户端同样可以
+
+   > 注意用聪明点的AI模型
+
+- [Mizuki-skill-pro 文件结构](Mizuki-skill-pro-Structure.md)（本仓库README.md同目录下的 `Mizuki-skill-pro-Structure.md` 文件）
+   > Pro版的 `状态管理` 和 `会话归档` 功能均在 Skill 文件的 `memory/` 目录下完成动态变化
+
+- [Mizuki-skill 文件结构](Mizuki-skill-Structure.md)（本仓库README.md同目录下的 `Mizuki-skill-Structure.md` 文件）
 
 ```
-akiyama_mizuki-skill/
+akiyama_mizukie-skill/
 ├── Initial-Markdown/                          # 原始 Markdown 文档
-│   └── Akiyama_Mizuki-Skill.md                # 角色设定总文档（默认最新文档）
+│   │
+│   ├── Akiyama_Mizuki-Skill.md                # 角色设定总文档（默认最新文档）
+│   └── Akiyama_Mizuki-Skill-.......md         # 总文档历史版本
+│
+├── Mizuki-skill-pro/                          # Pro版（需要AI Agent）
+│   │
+│   └── ......
 │
 └── Mizuki-skill/                              # Skill 成品（可直接使用）
+    │
     ├── SKILL.md                               # 核心技能文件（角色规则与框架）
     ├── limit.md                               # 边界与禁忌话题定义
     ├── soul.md                                # 角色核心驱动与情感内核
+    │
+    ├── config/                                # 配置信息
+    │   │
+    │   ├── basic_config.yaml                  # 基础配置
+    │   ├── dialogue_strategy.yaml             # 对话策略
+    │   ├── key_points.yaml                    # 记忆与上下文
+    │   └── special_config.yaml                # 特殊配置
+    │
     └── resource/                              # 配套资源
         │
         ├── behavior_guide.md                  # 行为指南
@@ -48,22 +73,14 @@ akiyama_mizuki-skill/
         ├── mood_state_transitions.md          # 情绪状态转换指南
         ├── aesthetic_philosophy.md            # 美学哲学指南
         ├── world_building.md                  # 设定背景
+        │
         └── story/                             # 剧情文件（简述版剧情）
             │
-            ├──index.md                        # 剧情文件索引
-            │
-            ├── main                           # 主线剧情
-            │   └── ......                     # 多个主线剧情简述文件
-            │
-            ├── cards                          # 卡牌剧情
-            │   └── ......                     # 多个卡牌剧情简述文件
-            │
-            └── self                           # 角色自我介绍
-                └── ......                     # 多个角色自我介绍文件
+            └── ......
 ```
 
-1. `Kanade-skill/resource/story/` 下的剧情简述文件，原内容来源于此开源仓库[ProjectSekai-story](https://github.com/ci-ke/ProjectSekai-story)，通过[DeepSeek 网页客户端](https://chat.deepseek.com/)（在线 AI 模型）进行简述处理
-2. `Kanade-skill/resource/story/self` 下的角色自我介绍文件来源于此开源仓库[ProjectSekai-story](https://github.com/ci-ke/ProjectSekai-story)
+- `Mizuki-skill/resource/story/` 下的剧情简述文件，原内容来源于此开源仓库[ProjectSekai-story](https://github.com/ci-ke/ProjectSekai-story)，通过[DeepSeek 网页客户端](https://chat.deepseek.com/)（在线 AI 模型）进行简述处理
+- `Mizuki-skill/resource/story/self` 下的角色自我介绍文件来源于此开源仓库[ProjectSekai-story](https://github.com/ci-ke/ProjectSekai-story)
 
 ## 使用教程
 
@@ -84,7 +101,7 @@ akiyama_mizuki-skill/
 2. **解压文件**：将压缩包内的文件解压至任意位置
    > 建议在任意盘符根目录下新建一个文件夹用于存放，避免文件散乱影响其他软件或系统
 
-3. **导入 AI 平台**：将解压目录中的整个 `Mizuki-skill` 文件夹拖入任意支持 Skill 的 AI 聊天平台即可使用
+3. **导入 AI 平台**：将解压目录中的整个 `Mizuki-skill` （非Pro版）文件夹拖入任意支持 Skill 的 AI 聊天平台即可使用
    > 部分AI可能需要将解压出的 `Mizuki-skill` 文件夹单独压缩成一个压缩包才能上传导入
 
 4. **开始对话**：与 `方法一` 同样
@@ -99,6 +116,17 @@ akiyama_mizuki-skill/
    > 注意！此方法极为消耗Token！请谨慎使用！
 - 参考其中的角色设定自行构建对话模型
 - 作为开发其他角色 Skill 的参考模板
+
+### Pro版使用：
+
+1. **下载项目**：与 `方法二` 同样
+   > 由于Pro版需要**AI Agent**，因此暂不提供打包完成的Releases，以免混淆
+
+2. **解压文件**：与 `方法二` 同样
+
+3. **导入 AI 平台**：将解压目录中的整个 `Mizuki-skill-pro` 文件夹改名为 `mizukie-perspective` ，然后将改名后的 `mizukie-perspective` 文件夹拖入任意支持 Skill 的 **AI Agent** 平台或 **OpenCode** 的本地Skill目录即可使用
+
+4. **开始对话**：与 `方法一` 同样
 
 ### 知识库（可选部分）
 
@@ -122,6 +150,7 @@ akiyama_mizuki-skill/
 | Initial-Markdown/... | 《世界计划 缤纷舞台！》（Project SEKAI）剧情与AI模型训练参数数据 | [Kimi 网页客户端](https://www.kimi.com) + 手动修正 |
 | Mizuki-skill/... | Initial-Markdown/... （本仓库目录下文件） | [GalgameCharacterSkills](https://github.com/JodieRuth/GalgameCharacterSkills) + [Qwen3.5-9B](https://www.modelscope.cn/models/unsloth/Qwen3.5-9B-GGUF)（本地 AI 模型） + 手动修正 |
 | Mizuki-skill/story/...... | [ProjectSekai-story](https://github.com/ci-ke/ProjectSekai-story) | [DeepSeek 网页客户端](https://chat.deepseek.com/) |
+| Mizuki-skill-pro/memory/...... | 本仓库所有文件 + [Yoisaki_Kanade-skill-pro](https://github.com/shifengshua/yoisaki_kanade-skill/tree/main/Kanade-skill-pro) | [Qwen3.5-9B](https://www.modelscope.cn/models/unsloth/Qwen3.5-9B-GGUF)（本地 AI 模型） + [OpenCode](https://opencode.ai/) |
 
 ## 注意事项
 
