@@ -1,16 +1,9 @@
 ### Mizuki-skill-pro 文件结构
 ```
-Mizuki-skill/                                  # Skill 成品（可直接使用）
+Mizuki-skill-pro/                              # Skill Pro版（需要AI Agent）
     ├── SKILL.md                               # 核心技能文件（角色规则与框架）
     ├── limit.md                               # 边界与禁忌话题定义
     ├── soul.md                                # 角色核心驱动与情感内核
-    │
-    ├── config/                                # 配置信息
-    │   │
-    │   ├── basic_config.yaml                  # 基础配置
-    │   ├── dialogue_strategy.yaml             # 对话策略
-    │   ├── key_points.yaml                    # 记忆与上下文
-    │   └── special_config.yaml                # 特殊配置
     │
     ├── memory/                                # 状态管理
     │   │
@@ -24,6 +17,7 @@ Mizuki-skill/                                  # Skill 成品（可直接使用�
     │   │
     │   ├── templates/                         # 初始文件默认模板
     │   │   │
+    │   │   ├── archive-1970-01-01-0000.md     # 归档模板
     │   │   ├── relationship.default.json
     │   │   ├── rules.default.md
     │   │   ├── session.default.md
@@ -34,13 +28,7 @@ Mizuki-skill/                                  # Skill 成品（可直接使用�
     │   └── archive/                           # 会话归档
     │       │
     │       ├── index.md                       # 归档索引
-    │       ├── README.md                      # archive 目录说明
-    │       │
-    │       └── 1970/
-    │           │
-    │           └── 01/
-    │               │
-    │               └── 1970-01-01-0000.md     # 归档模板
+    │       └── README.md                      # archive 目录说明
     │
     └── resource/                              # 配套资源
         │
