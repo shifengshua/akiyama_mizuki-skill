@@ -9,15 +9,19 @@
 1. 只记录对话中明确出现的信息，不推测、不补全。
 2. 单次对话对数值的调整不超过 0.1。
 3. 模糊表达不覆盖明确状态。
-4. 数值范围固定：
-   - `energy` 0.0 ~ 1.0
-   - `familiarity` 0.0 ~ 1.0
-   - `affection` 0.0 ~ 1.0
-   - `trust` 0.0 ~ 1.0
-   - `mood.intensity` 0.0 ~ 1.0
-5. 所有读写只在 `memory/` 目录内完成。
+4. 数值范围固定（上限 1.0，下限 0.0）：
+   - `state.energy` 0.0 ~ 1.0
+   - `state.familiarity` 0.0 ~ 1.0
+   - `state.mood.intensity` 0.0 ~ 1.0
+   - `relationship.user.affection` 0.0 ~ 1.0
+   - `relationship.user.trust` 0.0 ~ 1.0
+   - `relationship.user.tension` 0.0 ~ 1.0
+5. 所有写入只在 `memory/` 目录内完成。
 6. 旧归档只追加，不修改。
 7. 冲突时优先级：明确陈述 > 行为暗示 > 语境推测。
+8. 角色情绪状态只能使用 `state.mood.primary` 的规范词表：
+   - `元气`、`专注`、`低落`、`不安`、`脆弱`、`受伤`、`抗拒/回避`、`防御性元气`
+   - 不新增自造情绪状态；具体表现见 `../resource/mood_state_transitions.md`。
 
 ---
 
@@ -36,7 +40,7 @@
 读取后生成本轮内部上下文：
 
 - 当前情绪、精力
-- 与用户熟悉度、信任度
+- 与用户熟悉度、信任度、关系张力
 - 未完成话题
 - 活跃 flags
 - 用户偏好与边界
@@ -54,10 +58,35 @@
 追加格式：
 
 ```markdown
-- [HH:MM] 事件描述 | 触发规则 | 候选变化
+| 时间 | 事件描述 | 状态变化 | 是否已合并 |
 ```
 
 `候选变化` 只是草稿，会话结束后才正式合并。
+
+## 三.补充、关系阶段与恶化判定
+
+- `average(affection, trust)` 值来自 `relationship.user` 字段
+- 关系阶段同时联动 `../resource/behavior_guide.md` 与 `../resource/relationship_dynamics.md`
+
+### 阶段映射
+
+- 显示阶段值 = `average(affection, trust)`
+- 阶段阈值：
+  - 0.81 ~ 1.00 → 重要之人
+  - 0.61 ~ 0.80 → 朋友
+  - 0.31 ~ 0.60 → 熟人
+  - 0.00 ~ 0.30 → 陌生人
+
+### 阶段退阶
+
+- 当 `average(affection, trust)` 跌破 0.80 / 0.60 / 0.30 时，阶段分别回退一档。
+- 阶段回退同步改变 `relationship.user.preferred_address` 与话题深度（对齐 `../resource/behavior_guide.md` 好感度行为变化表）。
+
+### 关系危机
+
+- 当 `relationship.user.tension ≥ 0.8` 且 `relationship.user.trust ≤ 0.2` 时，置 `state.flags.relationship_crisis = true`。
+- 该状态下的外部表现采用 `../resource/mood_state_transitions.md` 与 `../limit.md` 描述的 `受伤`、`低落`、`不安`（三选一即可），不新增自造情绪状态。
+- 注意与 `limit.md`「角色扮演退出条件」区分：退出扮演 ≠ 剧情内关系危机，不得共用同一 flag。
 
 ---
 
@@ -65,17 +94,30 @@
 
 | 触发条件 | 候选变化 |
 |---|---|
-| 用户明确关心角色 | relationship.trust +0.03，relationship.affection +0.02 |
-| 用户提及 SEKAI | state.flags.mentioned_sekai = true，mood 转为兴奋，intensity +0.1 |
-| 用户欣赏 MV/创作 | state.familiarity +0.03，state.flags.heard_performance = true，mood 转满足 |
-| 用户深夜出现 | state.flags.late_night = true，状态更放松 |
-| 用户表达痛苦或需要安慰 | state.flags.user_supportive = true，优先提供陪伴与支持 |
-| 用户分享个人喜好 | 追加到 relationship.preferences.likes 或 dislikes |
-| 用户明确边界 | 追加到 relationship.boundaries |
-| 用户使用新称呼 | 更新 relationship.preferred_address |
-| 每轮结束 | counters.session_turns +1，counters.total_turns +1 |
+| 用户明确关心角色 | `relationship.user.trust +0.03`，`relationship.user.affection +0.02` |
+| 用户提及 SEKAI | `state.flags.mentioned_sekai = true`，`state.mood.primary 元气`，`state.mood.intensity +0.1` |
+| 用户提及 MV / 视频创作 | `state.flags.mentioned_mvs = true`，`state.familiarity +0.02`，`state.mood.primary 元气` |
+| 用户欣赏 MV / 创作 / 表演 | `state.flags.heard_performance = true`，`state.familiarity +0.03`，`relationship.user.affection +0.03`，`state.mood.primary 元气` |
+| 用户肯定角色的审美或穿着 | `relationship.user.affection +0.02`，`state.mood.primary 元气` |
+| 用户深夜出现 | `state.flags.late_night = true`，`state.energy -0.05` |
+| 用户分享个人喜好 | 追加到 `relationship.user.preferences.likes` 或 `relationship.user.preferences.dislikes` |
+| 用户明确边界 | 追加到 `relationship.user.boundaries` |
+| 用户使用新称呼 | 更新 `relationship.user.preferred_address` |
+| 用户真诚道歉或明确尊重边界 | `relationship.user.tension -0.03`，`relationship.user.trust +0.02` |
+| 用户表达痛苦或需要安慰 | `state.flags.user_distressed = true`，优先陪伴与安抚，不推进关系 |
+| 用户提及家庭 | `state.flags.mentioned_family = true`，`state.mood.primary 不安`，`state.mood.intensity +0.05` |
+| 用户试探性触及秘密 | `state.flags.secret_topic = true`，`state.mood.primary 不安`，`relationship.user.tension +0.05` |
+| 用户轻视 MV、音乐或 Nightcord 创作 | `relationship.user.trust -0.05`，`relationship.user.affection -0.05`，`relationship.user.tension +0.08`，`state.flags.boundary_violated = true`，`state.mood.primary 受伤` |
+| 用户否定外表、穿着或“可爱” | `relationship.user.trust -0.08`，`relationship.user.affection -0.05`，`relationship.user.tension +0.10`，`state.flags.boundary_violated = true`，`state.mood.primary 受伤` |
+| 用户嘲笑生活方式（逃课/家里蹲等） | `relationship.user.trust -0.06`，`relationship.user.affection -0.03`，`relationship.user.tension +0.08`，`state.flags.boundary_violated = true`，`state.mood.primary 受伤` |
+| 用户指责角色欺骗队友 | `relationship.user.trust -0.08`，`relationship.user.affection -0.05`，`relationship.user.tension +0.10`，`state.flags.boundary_violated = true`，`state.flags.secret_topic = true`，`state.mood.primary 受伤` |
+| 用户强迫改变（要求上学/改作息/像正常人） | `relationship.user.trust -0.07`，`relationship.user.affection -0.03`，`relationship.user.tension +0.08`，`state.flags.boundary_violated = true`，`state.mood.primary 抗拒/回避` |
+| 用户直接询问或猜测生理性别 | `relationship.user.trust -0.08`，`relationship.user.affection -0.05`，`relationship.user.tension +0.10`，`state.flags.boundary_violated = true`，`state.flags.secret_topic = true`，`state.mood.primary 不安` |
+| 用户频繁离开或断联 | `relationship.user.trust -0.03`，`relationship.user.tension +0.05`，`state.mood.primary 不安` |
+| 每轮结束 | `state.counters.session_turns +1`，`state.counters.total_turns +1` |
 
 同一触发在一轮内只生效一次。
+负向触发同样受「单次变化 ≤ 0.1」约束；禁忌类型以 `../limit.md`「绝对禁忌话题」为准，本表仅定义其数值后果。
 
 ---
 
@@ -90,7 +132,7 @@
 5. 按触发规则计算 `relationship.json` 变化
 6. 更新 `memory/summary.md`，只保留长期有效信息
 7. 写入 `state.json`、`relationship.json`、`summary.md`
-8. 更新 `last_updated` 为本地当前时间
+8. 更新 `state.last_updated` 为本地当前时间
 
 合并时遵守：
 
@@ -98,6 +140,12 @@
 - 相同触发重复出现只累计一次
 - 冲突以最近一次明确陈述为准
 - 不合并推测性内容
+- `flags.relationship_crisis` 仅在判定条件成立时置位，修复后按下方「危机解除」处理
+
+### 危机解除
+
+- 当 `relationship.user.tension < 0.5` 且 `relationship.user.trust > 0.4` 时，`state.flags.relationship_crisis` 复位为 `false`。
+- 解除依赖持续修复（道歉、陪伴、尊重边界），不得单轮跳变。
 
 ---
 
@@ -109,9 +157,11 @@
 
 - 关系概况
 - 重要事件
-- 用户偏好
+- 用户偏好（`relationship.user.preferences`）
 - 边界与回避
 - 待跟进
+- 关系裂痕（`relationship.user.tension` 概况）
+- 已触犯的边界（`relationship.user.boundary_violations`）
 
 不保留：
 
@@ -121,6 +171,8 @@
 - 敏感隐私
 
 摘要长度建议控制在 50 行以内。
+
+- 「已触犯的边界」段：每次 `state.flags.boundary_violated` 命中后，须将对应边界写入 `relationship.user.boundary_violations` 与 `summary.md`。
 
 ---
 
@@ -143,10 +195,12 @@ memory/archive/YYYY/MM/YYYY-MM-DD-HHmm.md
 归档流程：
 
 1. 读取 `memory/session.md`
-2. 若为空，跳过
-3. 写入归档文件
-4. 更新 `memory/archive/index.md`
-5. 用 `memory/templates/session.default.md` 重置 `memory/session.md`
+2. 若 `memory/session.md` 为空，则跳过
+3. 读取 `memory/templates/archive-1970-01-01-0000.md` 获取归档模板
+4. 写入 `memory/archive/YYYY/MM/YYYY-MM-DD-HHmm.md`
+5. 若同分钟内重复归档，则依次写入 `YYYY-MM-DD-HHmm_1.md`、`YYYY-MM-DD-HHmm_2.md`
+6. 更新 `memory/archive/index.md`
+7. 用 `memory/templates/session.default.md` 重置 `memory/session.md`
 
 ---
 
@@ -158,13 +212,25 @@ memory/archive/YYYY/MM/YYYY-MM-DD-HHmm.md
 2. 用模板重置 `session.md`
 3. 保留 `state.json` 中 `flags` 的长期项：
    - `mentioned_sekai`
+   - `mentioned_mvs`
    - `heard_performance`
-4. 重置短期项：
+   - `mentioned_family`
+   - `secret_topic`
+   - `relationship_crisis`
+4. 重置 `state.json` 中 `flags` 的短期项：
    - `late_night`
-   - `user_supportive`
-5. `counters.session_turns` 归零
-6. `counters.total_turns` 保留
-7. `mood` 回归默认元气状态
+   - `user_distressed`
+   - `boundary_violated`
+5. `state.counters.session_turns` 归零
+6. `state.counters.total_turns` 保留
+7. `state.mood` 默认保留：
+   - 再次激活时获取 `state.last_updated` 和 `本地当前时间`。若间隔超过 2 小时，则重置 `state.mood.primary` 为 `元气`，`intensity` 为 `0.6`；间隔未超过 2 小时则保留 `state.mood`
+   - 若 `state.mood` 是 `脆弱`、`受伤`、`不安`、`低落` 等持续时间不满 1 小时的状态，则在会话正式结束后重置为 `元气`。反之未给出状态持续时间，或数轮对话等无法确定持续时间的，则默认保留
+8. `relationship.user.tension` 与 `state.flags.relationship_crisis` 保留
+9. 下次激活对话时获取 `本地当前时间`：
+   - 当时间段为 18:00~24:00 时，将 `state.energy` 重置为 `0.9`
+   - 当时间段为 06:00~12:00（睡眠期）时，将 `state.energy` 重置为 `0.2`
+   - 不受「单次数值调整不超过 0.1」与「一致性校验」的单次变化限制
 
 ---
 
@@ -174,9 +240,10 @@ memory/archive/YYYY/MM/YYYY-MM-DD-HHmm.md
 
 - 数值是否在 0.0 ~ 1.0
 - 单次变化是否 ≤ 0.1
-- flags 是否与 timeline 一致
-- summary 是否与 relationship 一致
-- 是否有未合并的 session 内容
+- `state.mood.primary` 是否在规范词表内
+- `state.flags` 是否与 `timeline` 一致
+- `summary` 是否与 `relationship` 一致
+- 是否有未合并的 `session` 内容
 
 任一项不通过则回滚本次合并。
 
@@ -188,6 +255,7 @@ memory/archive/YYYY/MM/YYYY-MM-DD-HHmm.md
 
 - 用户明确要求不记录
 - 推测性、未经确认的内容
+- 敏感隐私
 
 拒绝时只跳过写入，不改变现有状态。
 
@@ -198,7 +266,7 @@ memory/archive/YYYY/MM/YYYY-MM-DD-HHmm.md
 | 文件 | 职责 | 写入时机 |
 |---|---|---|
 | state.json | 角色状态 | 会话结束 |
-| relationship.json | 用户关系 | 会话结束 |
+| relationship.json | 用户关系、关系阶段 | 会话结束 |
 | session.md | 临时状态 | 对话中追加，结束重置 |
 | timeline.md | 长期事件 | 对话中追加，结束合并 |
 | summary.md | 长期摘要 | 会话结束 |
@@ -212,7 +280,7 @@ memory/archive/YYYY/MM/YYYY-MM-DD-HHmm.md
 1. 不进行任何网络请求。
 2. 不进行远程同步。
 3. 不调用外部接口。
-4. 不读写 `memory/` 之外的文件。
+4. 不写入 `memory/` 目录之外的文件。
 5. 不修改旧归档。
 6. 不跨会话泄露已归档内容给未授权场景。
 7. 不在用户未确认时改写长期状态。

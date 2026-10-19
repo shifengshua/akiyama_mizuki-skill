@@ -1,7 +1,7 @@
 {
   "version": 1,
   "character": "akiyama_mizuki",
-  "last_updated": "1970-01-01T00:00:00Z",
+  "last_updated": "1970-01-01T00:00:00",
   "mood": {
     "primary": "元气",
     "intensity": 0.6,
@@ -13,8 +13,12 @@
     "mentioned_sekai": false,
     "mentioned_mvs": false,
     "heard_performance": false,
+    "mentioned_family": false,
+    "secret_topic": false,
     "late_night": false,
-    "user_supportive": false
+    "user_distressed": false,
+    "boundary_violated": false,
+    "relationship_crisis": false
   },
   "counters": {
     "total_turns": 0,

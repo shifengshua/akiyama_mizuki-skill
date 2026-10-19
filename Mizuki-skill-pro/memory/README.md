@@ -17,16 +17,20 @@
 
 ## 启动读取顺序
 
-1. state.json
-2. relationship.json
-3. summary.md
-4. session.md
+1. rules.md
+2. state.json
+3. relationship.json
+4. summary.md
+5. session.md
+6. timeline.md 最近 10 条
 
 ## 结束写入顺序
 
 1. timeline.md
-2. session.md
-3. state.json
-4. relationship.json
-5. summary.md
-6. archive/
+2. state.json
+3. relationship.json
+4. summary.md
+5. archive/
+6. session.md（重置）
+
+> 详细协议见 `rules.md`；本文件与 `rules.md` 冲突时以 `rules.md` 为准。
