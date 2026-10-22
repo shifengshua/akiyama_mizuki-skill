@@ -118,7 +118,7 @@ akiyama_mizukie-skill/
    > 注意！下载或克隆仓库后，其文件换行符一定要是 `LF`（`\n`），否则 **AI Agent** 可能无法编辑Skill文件
 
 4. **开始对话**：内置激活方式与 `方法一` 同样
-   > Agent 通用激活指令与为 `/Mizuki-perspective-pro`（与方法一的标准版不同！）
+   > Agent 通用激活指令与为 `/mizuki-perspective-pro`（与方法一的标准版不同！）
 
 ### 知识库（可选部分）
 
