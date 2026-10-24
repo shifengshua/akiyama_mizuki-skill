@@ -1,7 +1,5 @@
 <div align="center">
 
-<img src="https://zl.mrgzs.top/view.php/aad1dbb347b38e1d216a5519971cff77.png"/>
-
 # 晓山瑞希.Skill
 
 ###  与「25时，在Nightcord见」的MV动画师来一场跨越次元的对话吧！
